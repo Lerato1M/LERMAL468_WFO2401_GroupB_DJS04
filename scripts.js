@@ -1,74 +1,17 @@
+// Importing components from separate files
+
+// Importing Book component
+import { Book } from './Book.js';
+
+// Importing Theme component
+import { Theme } from './Theme.js';
+
+// Importing GenreFilter component
+import { GenreFilter } from './GenreFilter.js';
+
 // Import data as well as the constants
 import { books, authors, genres, BOOKS_PER_PAGE } from './data.js';
 
-// Object: To handle rendering Book Previews
-const Book = {
-    // Function to render a Book Preview
-    renderPreview: function(book) {
-        const element = document.createElement('button');
-        element.classList = 'preview';
-        element.setAttribute('data-preview', book.id);
-
-        // Construct HTML for Book Preview
-        element.innerHTML = `
-            <img
-                class="preview__image"
-                src="${book.image}"
-            />
-            
-            <div class="preview__info">
-                <h3 class="preview__title">${book.title}</h3>
-                <div class="preview__author">${authors[book.author]}</div>
-            </div>
-        `;
-
-        return element;
-    }
-};
-
-// Object to handle rendering Genre filter options
-const Genre = {
-    // Function to render Genre filter options
-    renderOptions: function() {
-        const genreHtml = document.createDocumentFragment();
-        const firstGenreElement = document.createElement('option');
-        firstGenreElement.value = 'any';
-        firstGenreElement.innerText = 'All Genres';
-        genreHtml.appendChild(firstGenreElement);
-
-        // Loop through genres and create option elements
-        for (const [id, name] of Object.entries(genres)) {
-            const element = document.createElement('option');
-            element.value = id;
-            element.innerText = name;
-            genreHtml.appendChild(element);
-        }
-
-        return genreHtml;
-    }
-};
-
-// Object to handle rendering author filter options
-const Author = {
-    // Function to render author filter options
-    renderOptions: function() {
-        const authorsHtml = document.createDocumentFragment();
-        const firstAuthorElement = document.createElement('option');
-        firstAuthorElement.value = 'any';
-        firstAuthorElement.innerText = 'All Authors';
-        authorsHtml.appendChild(firstAuthorElement);
-
-        // Loop through authors and create option elements
-        for (const [id, name] of Object.entries(authors)) {
-            const element = document.createElement('option');
-            element.value = id;
-            element.innerText = name;
-            authorsHtml.appendChild(element);
-        }
-
-        return authorsHtml;
-    }
-};
 
 // Function to render books on the page
 function renderBooks(booksToRender) {
@@ -82,18 +25,6 @@ function renderBooks(booksToRender) {
 
     // Append rendered previews to the DOM
     document.querySelector('[data-list-items]').appendChild(fragment);
-}
-
-// Function to apply theme based on user selection
-function applyTheme(theme) {
-    // Update CSS variables based on theme
-    if (theme === 'night') {
-        document.documentElement.style.setProperty('--color-dark', '255, 255, 255');
-        document.documentElement.style.setProperty('--color-light', '10, 10, 20');
-    } else {
-        document.documentElement.style.setProperty('--color-dark', '10, 10, 20');
-        document.documentElement.style.setProperty('--color-light', '255, 255, 255');
-    }
 }
 
 // Function to sort books by publication year
@@ -116,7 +47,7 @@ for (const { author, id, image, title } of matches.slice(0, BOOKS_PER_PAGE)) {
 document.querySelector('[data-list-items]').appendChild(starting);
 
 // Render genre filter options
-const genreHtml = Genre.renderOptions();
+const genreHtml = FilterGenre.renderOptions();
 document.querySelector('[data-search-genres]').appendChild(genreHtml);
 
 // Render author filter options
